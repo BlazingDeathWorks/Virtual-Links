@@ -20,7 +20,7 @@ public class PositionRendererSorter : MonoBehaviour
     void LateUpdate()
     {
         if (!sr) return;
-        sr.sortingOrder = (int)(transform.position.y - offset);
+        sr.sortingOrder = Mathf.RoundToInt((transform.position.y + offset));
         if (runOnlyOnce)
         {
             Destroy(this);

@@ -5,23 +5,28 @@ using UnityEngine;
 public class MousePosController : MonoBehaviour
 {
     [SerializeField]
+    private GameObject bullet;
+    [SerializeField]
     private Camera cm = null;
-    Transform myTransform = null;
 
-    private void Awake()
+    void Update()
     {
-        myTransform = transform;
+        Cursor.visible = true;
+
+        Vector3 viewToWorld = cm.ViewportToWorldPoint(GetMousePos());
+        Vector3 pos = new Vector3(viewToWorld.x, viewToWorld.y);
+        transform.position = pos;
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Instantiate(bullet, pos, Quaternion.identity);
+        }
+        Debug.Log(cm.ScreenToViewportPoint(Input.mousePosition));
     }
 
-    void LateUpdate()
+    private Vector3 GetMousePos()
     {
-        Vector3 mousePos = GetMousePos();
-        Cursor.visible = false;
-        myTransform.position = new Vector3(mousePos.x, mousePos.y);
-    }
-
-    Vector3 GetMousePos()
-    {
-        return cm.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 viewPoint = cm.ScreenToViewportPoint(Input.mousePosition);
+        return viewPoint;
     }
 }
