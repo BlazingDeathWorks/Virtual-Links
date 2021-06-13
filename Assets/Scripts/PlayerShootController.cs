@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShootController : MonoBehaviour
 {
@@ -8,15 +9,43 @@ public class PlayerShootController : MonoBehaviour
     private int damage = 1;
     [SerializeField]
     private float reloadSpeed = 1;
+    [SerializeField]
+    private Text ammoText;
     private float time = 3;
+    private int currentAmmo = 0;
+    private const int bulletsPerMag = 12;
+
+    private void Awake()
+    {
+        ResetAmmo();
+    }
+    
+    private void UpdateAmmoText()
+    {
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, bulletsPerMag);
+        ammoText.text = currentAmmo.ToString();
+    }
 
     public void Shoot(Damagable damagable)
     {
-        damagable.health -= damage;
+        if (currentAmmo > 0)
+        {
+            damagable.health -= damage;
+        }
+    }
+
+    private void FireBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            currentAmmo--;
+            UpdateAmmoText();
+        }
     }
 
     private void Update()
     {
+        FireBullet();
         Reload();
     }
 
@@ -29,6 +58,13 @@ public class PlayerShootController : MonoBehaviour
         {
             LeanTween.rotate(gameObject, new Vector3(0, 0, 270), reloadSpeed).setLoopPingPong(1);
             time = 0;
+            ResetAmmo();
         }
+    }
+
+    private void ResetAmmo()
+    {
+        currentAmmo = bulletsPerMag;
+        UpdateAmmoText();
     }
 }

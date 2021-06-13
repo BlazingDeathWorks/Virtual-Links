@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
     private float speed = 1;
     private Rigidbody2D rb = null;
     private Animator animator = null;
@@ -25,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        speed = Spawner.PrefabTransforms.Count;
     }
 
     void FixedUpdate()

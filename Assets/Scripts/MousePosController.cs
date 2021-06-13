@@ -1,32 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class MousePosController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject bullet;
-    [SerializeField]
     private Camera cm = null;
+
+    private void Awake()
+    {
+        cm = Camera.main;
+    }
 
     void Update()
     {
-        Cursor.visible = true;
+        Cursor.visible = false;
 
-        Vector3 viewToWorld = cm.ViewportToWorldPoint(GetMousePos());
-        Vector3 pos = new Vector3(viewToWorld.x, viewToWorld.y);
+        Vector3 pos = GetMousePos();
         transform.position = pos;
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Instantiate(bullet, pos, Quaternion.identity);
-        }
-        Debug.Log(cm.ScreenToViewportPoint(Input.mousePosition));
     }
 
     private Vector3 GetMousePos()
     {
-        Vector3 viewPoint = cm.ScreenToViewportPoint(Input.mousePosition);
-        return viewPoint;
+        Vector3 worldPoint = cm.ScreenToWorldPoint(Input.mousePosition);
+        worldPoint.z = -60;
+        return worldPoint;
     }
 }
