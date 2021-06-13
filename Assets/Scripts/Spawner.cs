@@ -32,11 +32,17 @@ public class Spawner : MonoBehaviour
 
         //Init Arrays
         instances = new LineRenderer[howManyPlayers];
+        PrefabTransforms = new List<Transform>();
         PrefabTransforms.Add(mainPlayer.transform);
 
         InstantiatePrefabs();
 
         OneTimeLink();
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("Getting Destroyed");
     }
 
     private void InstantiateEnemyPrefab()
