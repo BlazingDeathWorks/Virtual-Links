@@ -7,6 +7,7 @@ public class MouseOverPopper : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     private Vector3 initialScale;
     [SerializeField] Vector3 enterVector;
+    [SerializeField]
     private float transitionSpeed = 1f;
 
     private void Awake()

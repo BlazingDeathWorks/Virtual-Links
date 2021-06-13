@@ -9,10 +9,18 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator = null;
     private Vector2 movement;
 
+    [SerializeField]
+    private float audioPlayRate = 1.5f;
+    private float time = 0;
+    [SerializeField]
+    private AudioClip[] walkingClips;
+    private AudioSource audioSource = null;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -26,6 +34,15 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
         speed = Spawner.PrefabTransforms.Count;
+
+        if(time <= 0)
+        {
+            if (walkingClips == null || movement == Vector2.zero || audioSource == null) return;
+            audioSource.PlayOneShot(walkingClips[Random.Range(0, walkingClips.Length)]);
+            time = audioPlayRate;
+            return;
+        }
+        time -= Time.deltaTime;
     }
 
     void FixedUpdate()

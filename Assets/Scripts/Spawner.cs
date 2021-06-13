@@ -40,11 +40,6 @@ public class Spawner : MonoBehaviour
         OneTimeLink();
     }
 
-    private void OnDestroy()
-    {
-        Debug.Log("Getting Destroyed");
-    }
-
     private void InstantiateEnemyPrefab()
     {
         if (enemyPrefab == null || playerShootControllerRef == null) return;

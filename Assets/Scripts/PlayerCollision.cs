@@ -33,6 +33,7 @@ public class PlayerCollision : MonoBehaviour
     private IEnumerator GameOver()
     {
         yield return new WaitForSecondsRealtime(2f);
+        Time.timeScale = 1;
         GameOverFunc?.Invoke();
     }
 
