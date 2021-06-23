@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private Text scoreDisplay;
+    private Text scoreDisplay;
     float score = 0;
 
     private void Awake()
     {
         PlayerCollision.GameOverFunc += OnGameOver;
         EnemyController.EnemyKilledFunc += OnEnemyKilled;
+        scoreDisplay = GetComponent<Text>();
     }
 
     private void Update()
@@ -24,6 +25,7 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateScoreDisplay()
     {
+        if (scoreDisplay == null) return;
         scoreDisplay.text = Mathf.Floor(score).ToString();
     }
 
